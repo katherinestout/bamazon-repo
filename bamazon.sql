@@ -19,32 +19,33 @@ CREATE TABLE products (
 
 /*INSERT 10 fake products*/
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Sony a5000", "Cameras", 400, 5);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Dodgers Jersey", "Clothing", 200, 10);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Das Boot", "Beverage Products", 10, 100);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Baseball Bat", "Sports", 30, 80);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Ed Sheeran Autograph", "Memorbilia", 50, 2);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
-INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Hair brush", "Hair Products", 4, 100);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Jelly", "Food", 8, 10);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Bread", "Food", 9, 10);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ();
+VALUES ("Kumbucha", "Food", 8, 90);
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Coffee", "Beverages", 7, 30);
 
 
