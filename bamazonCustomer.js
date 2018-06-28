@@ -6,11 +6,8 @@ var inquirer = require("inquirer");
 //establish the connection
 var connection = mysql.createConnection({
     host: "localhost",
-
     port: 3306,
-    
     user: "root",
-
     password: "",
     database: "bamazon_db"
 });
@@ -18,64 +15,66 @@ var connection = mysql.createConnection({
 //connect to the mysql server and sql database
 connection.connect(function(err){
     if(err) throw err;
-    start();
+    displayInventory();
 });
-//selecting all of the products
+
+
+
+function displayInventory(){
+    queryStr = "SELECT * FROM products";
+
+	// Make the db query
+	connection.query(queryStr, function(err, data) {
+		if (err) throw err;
+
+		console.log('Existing Inventory: ');
+		console.log('...................\n');
+
+		var strOut = '';
+		for (var i = 0; i < data.length; i++) {
+			strOut = '';
+			strOut += 'Item ID: ' + data[i].id + '  //  ';
+			strOut += 'Product Name: ' + data[i].product_name + '  //  ';
+			strOut += 'Department: ' + data[i].department_name + '  //  ';
+			strOut += 'Price: $' + data[i].price + '\n';
+
+			console.log(strOut);
+		}
+
+	  	console.log("---------------------------------------------------------------------\n");
+
+	  	//Prompt the user for item/quantity they would like to purchase
+	start();
+	})
+}
+
+
+
 function start(){
-    //connection.query("SELECT * FROM products", function(err, results){
-    inquirer
-    .prompt(
-        {
-            
-            //name: "productId",
-            //type: "input",
-            //choices: ["View Products for Sale!"],
-            //message:"Enter the product you want to buy!",
-            //checkProduct();
-            name: "choice",
-            type: "rawlist",
-            message: "View all of our [PRODUCTS] for sale, or [LIST] an item",
-            choices: ["PRODUCTS", "LIST"]
-            //},
-            //{
-             //   name: "units",
-              //  type: "input",
-              //  message: "How many would you like to buy?"
-            })
-            .then(function(answer){
-                if (answer.start.toUpperCase() === "PRODUCTS"){
-                    products();
-                }
-                else {
-                    list();
-                }
-            });
-        }
-
-function products(){
-    connection.query("SELECT * FROM products", function(err, results){
-    if (err) throw err;
-
-    inquirer
-    .prompt([
-        {
-    name: "productsUnits",
-    type: "rawlist",
-    choices: function() {
-    var choiceArray = [];
-    for (var i = 0; i < results.length; i++) {
-    choiceArray.push(results[i].product_name);
-    }
-     return choiceArray;
-     },
-    message: "Which Product?"
+    inquirer.prompt({
+        name: "itemId",
+        type: "input",
+        //validate: validateInput,
+        message: "what is the id of the item you want to buy?"
     },
     {
-    name: "units",
-    type: "input",
-    message: "How many units would you like?"
+        type: "input",
+        name: "units",
+        message: "How many units do you need?",
+       //validate: validateInput
+
     }
-    ])
-   // .then(function(answer){}
+        
+    ).then(function(input){
+        var item = input.itemId;
+        var unit = input.units;
+
+        var queryStr = "SELECT * FROM products WHERE?";
+
+        connection.query(queryStr, {itemId: item}, function (err, data){
+            if (err) throw err;
+
+      
+        })})}
 
 
