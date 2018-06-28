@@ -20,27 +20,18 @@ connection.connect(function(err){
     if(err) throw err;
     start();
 });
-
+//selecting all of the products
 function start(){
     connection.query("SELECT * FROM products", function(err, results){
     inquirer
     .prompt([
         {
+            
             name: "productId",
-            type: "rawlist",
-            choices: function(){
-                var choiceArray = [];
-                for (var i=0; i<results.length; i++){
-                    choiceArray.push(results[i].item_name);
-
-                }
-                return choiceArray;
+            type: "input",
+            //choices: "shdkf",
+            message:"Enter the product you want to buy!"
             },
-
-            message:"What is the id of the product you want to buy?"
-
-            },
-
             {
                 name: "units",
                 type: "input",
@@ -48,7 +39,6 @@ function start(){
             }
             ])
         
-
         .then(function(answer){
             var chosenItem;
             for (var i = 0; i<results.length; i++){
