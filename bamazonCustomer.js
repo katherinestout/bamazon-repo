@@ -24,25 +24,27 @@ connection.connect(function(err){
 function start(){
     connection.query("SELECT * FROM products", function(err, results){
     inquirer
-    .prompt([
+    .prompt(
         {
             
             name: "productId",
             type: "input",
-            choices: "View Products for Sale!",
-            //message:"Enter the product you want to buy!"
+            //choices: ["View Products for Sale!"],
+            message:"Enter the product you want to buy!",
+            //checkProduct();
             },
             {
                 name: "units",
                 type: "input",
                 message: "How many would you like to buy?"
             }
-            ])
-        
-        .then(function(answer){
-            if(answer.options === "View Products for Sale"){
-                viewProducts();
-            };
-        });
-
+    )
+  
     
+    ;
+
+
+        
+
+
+        }); }
