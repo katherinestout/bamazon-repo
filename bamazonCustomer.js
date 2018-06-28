@@ -24,7 +24,8 @@ connection.connect(function(err){
 function start(){
     connection.query("SELECT * FROM products", function(err, results){
     inquirer
-    .prompt({
+    .prompt([
+        {
             name: "productId",
             type: "rawlist",
             choices: function(){
@@ -44,9 +45,9 @@ function start(){
                 name: "units",
                 type: "input",
                 message: "How many would you like to buy?"
-    
             }
-        ])
+            ])
+        
 
         .then(function(answer){
             var chosenItem;
@@ -55,9 +56,9 @@ function start(){
                     chosenItem = results[i];
                 }
             }
-        })
+        });
     
-    })
+    });
 }
 
 
