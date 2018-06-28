@@ -29,8 +29,8 @@ function start(){
             
             name: "productId",
             type: "input",
-            //choices: "shdkf",
-            message:"Enter the product you want to buy!"
+            choices: "View Products for Sale!",
+            //message:"Enter the product you want to buy!"
             },
             {
                 name: "units",
@@ -40,16 +40,9 @@ function start(){
             ])
         
         .then(function(answer){
-            var chosenItem;
-            for (var i = 0; i<results.length; i++){
-                if (results[i].product_name === answer.choice){
-                    chosenItem = results[i];
-                }
-            }
+            if(answer.options === "View Products for Sale"){
+                viewProducts();
+            };
         });
-    
-    });
-}
-
 
     
