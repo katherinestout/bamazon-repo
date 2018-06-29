@@ -53,6 +53,7 @@ function displayInventory(){
 
 
 
+
 function start(){
     inquirer.prompt([{
         //which item would they like to buy?
@@ -72,7 +73,8 @@ function start(){
                return false;
            }
        }
-
+       //if the item is in stock, good!
+       //if the item is not in stock, show the displayInventory function again
     }]).then(function(answer){
         connection.query("SELECT * FROM products WHERE id =?", [answer.itemId], 
     function(err, res){
@@ -80,8 +82,10 @@ function start(){
             console.log("Sorry try again!")
             displayInventory();
         }
+        //the total amount for their bill
         else {
             var checkout = res[0].price * answer.itemQuantity;
             console.log("your total is: $" + checkout);
-
+            
+            if(err) throw err;
         }})})}
