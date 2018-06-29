@@ -16,6 +16,7 @@ var connection = mysql.createConnection({
 connection.connect(function(err){
     if(err) throw err;
     displayInventory();
+    start();
 });
 
 
@@ -27,7 +28,7 @@ function displayInventory(){
 	connection.query(queryStr, function(err, data) {
 		if (err) throw err;
 
-		console.log('Existing Inventory: ');
+		console.log('Inventory: ');
 		console.log('...................\n');
 
 		var strOut = '';
@@ -35,7 +36,8 @@ function displayInventory(){
 			strOut = '';
 			strOut += 'Item ID: ' + data[i].id + '  //  ';
 			strOut += 'Product Name: ' + data[i].product_name + '  //  ';
-			strOut += 'Department: ' + data[i].department_name + '  //  ';
+            strOut += 'Department: ' + data[i].department_name + '  //  ';
+            strOut += 'Stock Quantity:' + data[i].stock_quantity + ' // ';
 			strOut += 'Price: $' + data[i].price + '\n';
 
 			console.log(strOut);
@@ -50,31 +52,36 @@ function displayInventory(){
 
 
 
+
 function start(){
-    inquirer.prompt({
+    inquirer.prompt([{
+        //which item would they like to buy?
         name: "itemId",
         type: "input",
-        //validate: validateInput,
-        message: "what is the id of the item you want to buy?"
+        message: "what is the id of the item you want to buy?",
     },
+    //how many units of selected item?
     {
         type: "input",
-        name: "units",
+        name: "itemQuantity",
         message: "How many units do you need?",
-       //validate: validateInput
+       validate: function(value){
+           if (isNaN(value) === false){
+               return true;
+           } else {
+               return false;
+           }
+       }
 
-    }
-        
-    ).then(function(input){
-        var item = input.itemId;
-        var unit = input.units;
+    }]).then(function(answer){
+        connection.query("SELECT * FROM products WHERE id =?", [answer.itemId], 
+    function(err, res){
+        if (answer.itemQuantity > res[0].stock_quantity){
+            console.log("Sorry try again!")
+            displayInventory();
+        }
+        else {
+            var checkout = res[0].price * answer.itemQuantity;
+            console.log("your total is: $" + checkout);
 
-        var queryStr = "SELECT * FROM products WHERE?";
-
-        connection.query(queryStr, {itemId: item}, function (err, data){
-            if (err) throw err;
-
-      
-        })})}
-
-
+        }})})}
